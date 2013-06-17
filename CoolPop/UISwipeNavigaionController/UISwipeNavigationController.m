@@ -100,9 +100,8 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 #pragma mark -
 #pragma mark - Push Action
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    if ([self.viewControllers count]> 0 && [viewController respondsToSelector:@selector(isSupportSwipePop)]) {
-        BOOL returnValue = ((BOOL (*)(id, SEL))objc_msgSend)(viewController, @selector(isSupportSwipePop));
-        if (returnValue) {
+    if ([self.viewControllers count]> 0) {
+        if ([self isNeedSupportSwipePopForViewController:viewController]) {
             UIImage *image = [UIImage imageFromUIView:self.view];
             [self saveSnapshot:image forViewController:viewController];
         }
@@ -185,19 +184,23 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 }
 
 #pragma mark -
-- (BOOL)isNeedSwipeResponse {
-    if ([self.topViewController respondsToSelector:@selector(isSupportSwipePop)]) {
-        BOOL returnValue = ((BOOL (*)(id, SEL))objc_msgSend)(self.topViewController, @selector(isSupportSwipePop));
-        if (!returnValue) {
-            return NO;
-        }
-    }
+
+- (BOOL)isNeedSupportSwipePopForViewController:(UIViewController*)controller{
     
+    if ([controller respondsToSelector:@selector(isSupportSwipePop)]){
+        BOOL result = ((BOOL (*)(id, SEL))objc_msgSend)(controller, @selector(isSupportSwipePop));
+        if (result == NO) return NO;
+    }
+        return YES;
+}
+
+- (BOOL)isNeedSwipeResponse {
+
     if (self.viewControllers.count <= 1) {
         return NO;
     }
     
-    return YES;
+    return [self isNeedSupportSwipePopForViewController:self.topViewController];
 }
 
 

@@ -10,7 +10,8 @@
 
 @protocol UISwipePopDelegate <NSObject>
 
-- (BOOL)isSupportSwipePop;// default is NO;
+@optional
+- (BOOL)isSupportSwipePop;// default is YES;
 
 @end
 

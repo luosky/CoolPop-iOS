@@ -66,11 +66,6 @@
     
 }
 
-- (BOOL)isSupportSwipePop {
-    return YES;
-}
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 100;
 }
