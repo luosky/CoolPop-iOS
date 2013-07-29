@@ -14,7 +14,7 @@
 #import "NSObject+AssociativeObject.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define CACHE_IN_MEMORY 0
+#define CACHE_IN_MEMORY 1
 
 static CGFloat kMinThreshold = 140;
 static CGFloat kStartZoomRate = 0.95;
@@ -179,7 +179,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
     CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
     self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
-    self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
+    self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.7)].CGColor;
 
 }
 
@@ -191,7 +191,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
         BOOL result = ((BOOL (*)(id, SEL))objc_msgSend)(controller, @selector(isSupportSwipePop));
         if (result == NO) return NO;
     }
-        return YES;
+    return YES;
 }
 
 - (BOOL)isNeedSwipeResponse {
